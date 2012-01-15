@@ -1,0 +1,7 @@
+The akaAP project: 
+development of a a flexible, highly expandable autopilot system for unmanned vehicles, which is easy to maintain and to use. 
+
+This repository contains the code for the onboard autopilot hardware.
+
+Structure of the repository: 
+Still work in progress, until now it's just an eclipse project under git version control.
