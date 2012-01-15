@@ -10,8 +10,9 @@ int main(void)
 {
 	//Initialize the STM32
 	Init();
+	// create device class, holding external devices as ADCs, XBee, but also PWM drivers for servos.
+	// To use any kind of hardware, just use this global object.
 	devices = new Devices();
-	//modules = new Modules();
 	testloop();
 
 	//endless loop to prevent return from main()

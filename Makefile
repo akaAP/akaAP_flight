@@ -61,9 +61,6 @@ LIBRARIES_DIRECTORY = $(CODE_DIRECTORY)/libraries
 CPP_LIB_DIRECTORY = $(LIBRARIES_DIRECTORY)/CPP
 CPP_LIB_SRC_DIRECTORY = $(CPP_LIB_DIRECTORY)/src
 CPP_LIB_INC_DIRECTORY = $(CPP_LIB_DIRECTORY)/inc
-STM32_LIBRARY_DIRECTORY = $(LIBRARIES_DIRECTORY)/stm32Library
-STM32_LIBRARY_SRC_DIRECTORY = $(STM32_LIBRARY_DIRECTORY)/src
-STM32_LIBRARY_INC_DIRECTORY = $(STM32_LIBRARY_DIRECTORY)/inc
 CMSIS_DIRECTORY  = $(LIBRARIES_DIRECTORY)/CMSIS/CM3/CoreSupport
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -102,7 +99,6 @@ CPPSRC += $(HARDWARE_ABSTRACTION_DRIVERS_CODE_DIRECTORY)/src/deviceDriver_XBee.c
 CPPSRC += $(HARDWARE_ABSTRACTION_DRIVERS_CODE_DIRECTORY)/src/deviceDriver_LED_CPP.cpp
 CPPSRC += $(HARDWARE_ABSTRACTION_DRIVERS_CODE_DIRECTORY)/src/deviceDriver_pwmServoBank.cpp
 #CPPSRC += $(HARDWARE_ABSTRACTION_DRIVERS_CODE_DIRECTORY)/src/deviceDriver_VoltageRegulator.cpp
-#CPPSRC += $(HARDWARE_ABSTRACTION_DRIVERS_CODE_DIRECTORY)/src/deviceDriver_ADIS1635x.c
 CPPSRC += $(HARDWARE_ABSTRACTION_DRIVERS_CODE_DIRECTORY)/src/devices.cpp 
 
 CPPSRC += $(HARDWARE_ABSTRACTION_CODE_DIRECTORY)/src/Modules.cpp 
@@ -115,8 +111,6 @@ CPPSRC += $(HARDWARE_ABSTRACTION_CODE_DIRECTORY)/src/timebase.cpp
 CPPSRC += $(HARDWARE_ABSTRACTION_CODE_DIRECTORY)/src/InterruptManager.cpp 
 ##CPPSRC += $(APPLICATION_CODE_DIRECTORY)/src/serialPort_example.c 
 CPPSRC += $(HARDWARE_ABSTRACTION_CODE_DIRECTORY)/src/serviceFunctions.cpp 
-#CPPSRC += $(HARDWARE_ABSTRACTION_CODE_DIRECTORY)/src/system.cpp 
-
 CPPSRC += $(HARDWARE_ABSTRACTION_CODE_DIRECTORY)/examples/src/SerialPort_example.cpp
 
 CPPSRC += $(CPP_LIB_SRC_DIRECTORY)/mini_cpp.cpp
@@ -158,7 +152,7 @@ LINKERSCRIPTINC  = ./
 # Also add directories where the linker should search for
 # includes from linker-script to the list
 #     Each directory must be seperated by a space.
-EXTRA_LIBDIRS = $(LINKERSCRIPTINC)
+EXTRA_LIBDIRS = $(LINKERSCRIPTINC) $(LIBRARIES_DIRECTORY)
 
 # Optimization level, can be [0, 1, 2, 3, s]. 
 # 0 = turn off optimization. s = optimize for size.
