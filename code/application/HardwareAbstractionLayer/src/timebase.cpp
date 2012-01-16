@@ -76,6 +76,7 @@ void TimeBase::waitMicrosec(int32_t t){
  * \brief writes the current system time in an array.
  * array[0] : time in milliseconds
  * array[1] : fractional time in microseconds
+ * Note: overflow after
  */
 void TimeBase::getSystemTime(uint32_t* t){
 	t[0] = (int32_t)systemTime_mSec;
@@ -85,7 +86,7 @@ void TimeBase::getSystemTime(uint32_t* t){
 
 /**
  * \brief Returns the current system time in [ms].
- * TODO inline function to improve performance.
+ * TODO inline function to improve performance ?.
  */
 uint32_t TimeBase::getSystemTimeMs(){
 	return systemTime_mSec;

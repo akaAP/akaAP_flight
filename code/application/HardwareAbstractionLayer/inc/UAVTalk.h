@@ -28,7 +28,7 @@ private:
 	void setUp();							// Does all kinds of initialization.
 	void setChecksum(uint8_t* messageStructPointer);
 	XBee* xbee;								// The XBee modem this link uses.
-	static const uint8_t protocolOverhead = 8;	// number of protocol overhead bytes (message id, checksum, etc.)
+	static const uint8_t protocolOverhead = 11;	// number of protocol overhead bytes (message id, checksum, etc.)
 };
 
 #endif /* UAVTalk_H_ */

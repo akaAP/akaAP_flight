@@ -6,6 +6,7 @@
  **************************************/
 
 #include "../inc/UAVTalk.h"
+#include "../inc/pios_crc.h"
 
 /**
  * \brief Constructor.
@@ -39,6 +40,7 @@ void UAVTalk::sendTestMessage(){
 	vMessage.header.messageType = 0x10;
 	// length = number of bytes in header and payload without checksum (Header: 10b, payload: 3x4b).
 	vMessage.header.length = 22;
+	vMessage.header.objectID = 0x43007EB0;
 	// openpilot wiki says; Unique object instance ID. Only present in UAVObjects that are NOT of type 'single instance'
 	// Could either mean that these bytes are not part of the message at all
 	// or that these bytes are 0x0.
@@ -46,10 +48,9 @@ void UAVTalk::sendTestMessage(){
 	vMessage.down = 1;
 	vMessage.east = 2;
 	vMessage.north = 3;
-	this->setChecksum(&(vMessage.header.startByte));
-	// FIXME Sending two messages corrupts data.
-	//xbee->sendData( (uint8_t*)(&message_heartbeat), message_heartbeat.header.numberOfBytes + UAVTalk::protocolOverhead);
-//	xbee->sendData( (uint8_t*)(&attitudeMessage), attitudeMessage.header.numberOfBytes + UAVTalk::protocolOverhead);
+	//this->setChecksum(&(vMessage.header.startByte));
+	vMessage.end.checksum = PIOS_CRC_updateCRC(0, &(vMessage.header.startByte), 22);
+	xbee->sendData( (uint8_t*)(&vMessage), vMessage.header.length + 1);
 	return;
 }//eof
 
@@ -60,6 +61,5 @@ void UAVTalk::sendTestMessage(){
  */
 void UAVTalk::setChecksum(uint8_t* messageStructPointer)
 {
-
 	return;
 }//eof

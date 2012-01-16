@@ -23,12 +23,11 @@ class GroundLink{
 public:
 	GroundLink(USART_TypeDef* usartToUse);
 	~GroundLink();
-	void sendTestMessage();
+	void sendRawInertial();
 	void sendHeartbeat();
 	void sendValue(int32_t valueToSend);
 	void sendText(char* textToSend);
 private:
-	void setUp();							// Does all kinds of initialization.
 	void setChecksum(uint8_t* messageStructPointer);
 	XBee* xbee;								// The XBee modem this link uses.
 	static const uint8_t protocolOverhead = 8;	// number of protocol overhead bytes (message id, checksum, etc.)

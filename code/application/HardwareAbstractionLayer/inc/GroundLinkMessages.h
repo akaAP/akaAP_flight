@@ -17,6 +17,7 @@
 //Message declarations.
 struct MessageHeader{
 	// FIXME why not make the start bytes constant and statically defined?
+	// TODO According to the pixhawk wiki, more than one startbyte is unnecessary - understand why.
 	uint8_t start1;
 	uint8_t start2;
 	uint8_t start3;
@@ -36,7 +37,7 @@ struct HeartBeatMessage{
 
 struct UavHealthMessage{
 	struct MessageHeader header;
-	static const uint32_t healthFlags = 3;
+	static const uint32_t healthFlags = 77;
 	struct MessageEnd end;
 };
 
@@ -60,9 +61,13 @@ struct AttitudeMessage{
 	int16_t phi_dot;			// droll/dt
 	int16_t theta_dot;			// dpitch/dt
 	int16_t psi_dot;			// dyaw/dt
-	int16_t accel_x;			// acceleration along x - axis
-	int16_t accel_y;			// " y
-	int16_t accel_z;			// " z
+	struct MessageEnd end;
+};
+
+struct RawInertialMessage{
+	struct MessageHeader header;
+	int16_t gyro[3];
+	int16_t acc[3];
 	struct MessageEnd end;
 };
 

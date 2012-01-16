@@ -16,6 +16,8 @@
 #include "../HardwareAbstractionLayer/inc/NodeLink.h"
 #include "../HardwareAbstractionLayer/inc/CANTest.h"
 #include "../HardwareAbstractionLayer/inc/GroundLink.h"
+#include "../HardwareAbstractionLayer/inc/MAVLink.h"
+#include "../HardwareAbstractionLayer/inc/UAVTalk.h"
 #include "../HardwareAbstractionLayer/examples/inc/SerialPort_example.h"
 
 
@@ -45,7 +47,9 @@ void Test::testM(void){
 void testloop()
 {
 //select which loop routine you want to execute
-#define TEST_GROUNDLINK
+//#define TEST_GROUNDLINK
+//#define TEST_UAVTALK
+#define TEST_MAVLINK
 //#define TEST_NODELINK
 //#define TEST_BLINK_APBOARD
 //#define TEST_SERVOS
@@ -74,14 +78,58 @@ void testloop()
 	}
 #endif
 
+#ifdef TEST_MAVLINK
+	LED* lede = new LED(GPIOC, GPIO_Pin_12, LED::state_ON);
+	MAVLink* mavlink = new MAVLink(USART2);
+	lede->set(LED::state_OFF);
+	uint32_t heartBeatTime = TimeBase::getSystemTimeMs();
+	uint32_t airdataTime = TimeBase::getSystemTimeMs();
+	uint32_t newTime = 0;
+	while(true){
+		newTime = TimeBase::getSystemTimeMs();
+		// Do every second:
+		if((newTime - heartBeatTime)>1000)
+		{
+			mavlink->sendHeartbeat();
+			lede->toggle();
+			heartBeatTime = newTime;
+		}
+		//Do every 10 milliseconds
+		if((newTime-airdataTime)>100)
+		{
+			mavlink->sendAirData();
+			airdataTime = newTime;
+		}
+	}
+#endif
+
+#ifdef TEST_UAVTALK
+	LED* lede = new LED(GPIOC, GPIO_Pin_12, LED::state_ON);
+	UAVTalk* talk = new UAVTalk(USART2);
+	int32_t v = 0;
+	lede->set(LED::state_OFF);
+	while(true){
+		TimeBase::waitMicrosec(500000);
+
+		lede->set(LED::state_ON);
+		TimeBase::waitMicrosec(1000);
+		lede->set(LED::state_OFF);
+
+		talk->sendTestMessage();
+		v--;
+	}
+#endif
+
 #ifdef TEST_GROUNDLINK
 	LED* led = new LED(GPIOC, GPIO_Pin_12, LED::state_ON);
 	GroundLink* gLink = new GroundLink(USART2);
 	int32_t v = 0;
+	led->set_GPIOC_10(0);
 	while(true){
 		TimeBase::waitMicrosec(500000);
 		led->toggle();
-		gLink->sendValue(v);
+		TimeBase::waitMicrosec(500000)
+		gLink->sendRawInertial();
 		v--;
 	}
 #endif

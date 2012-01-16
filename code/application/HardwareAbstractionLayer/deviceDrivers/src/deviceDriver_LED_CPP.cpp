@@ -71,15 +71,15 @@ void LED::toggle(){
 
 void LED::set(uint8_t state)
 {
-	if (state==LED::state_OFF)
+	if (state==LED::state_ON)
 	{
 		this->GPIOPort->BSRR |= this->GPIOPin;
-		this->status = LED::state_OFF;
+		this->status = LED::state_ON;
 	}
 	else
 	{
 		this->GPIOPort->BRR |= this->GPIOPin;
-		this->status = LED::state_ON;
+		this->status = LED::state_OFF;
 	}
 return;
 }//eof
